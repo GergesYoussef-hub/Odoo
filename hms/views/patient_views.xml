@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <menuitem id="menu_hms_root" name="Hospital" sequence="10"/>
-    <menuitem id="menu_hms_patients" name="Patients" parent="menu_hms_root" action="action_patient" sequence="10"/>
+
     <record id="view_patient_tree" model="ir.ui.view">
-        <field name="name">hms.patient.tree</field>
+        <field name="name">hms.patient.list</field>
         <field name="model">hms.patient</field>
         <field name="arch" type="xml">
             <list>
                 <field name="first_name"/>
                 <field name="last_name"/>
+                <field name="email"/>
                 <field name="age"/>
                 <field name="blood_type"/>
                 <field name="state"/>
@@ -27,14 +28,15 @@
                 <sheet>
                     <field name="image" widget="image" class="oe_avatar"/>
                     <group>
-                        <group string="Personal Info">
+                        <group>
                             <field name="first_name"/>
                             <field name="last_name"/>
+                            <field name="email"/>
                             <field name="birth_date"/>
                             <field name="age"/>
                             <field name="blood_type"/>
                         </group>
-                        <group string="Medical Info">
+                        <group>
                             <field name="pcr"/>
                             <field name="cr_ratio" required="pcr == True"/>
                             <field name="address"/>
@@ -43,7 +45,7 @@
                     <group>
                         <field name="department_id" domain="[('is_opened', '=', True)]"/>
                         <field name="department_capacity"/>
-                        <field name="doctor_ids" widget="many2many_tags" readonly="department_id == False"/>
+                        <field name="doctor_ids" widget="many2many_tags" readonly="not department_id"/>
                     </group>
                     <notebook>
                         <page string="History" invisible="age &lt; 50">
@@ -69,4 +71,6 @@
         <field name="res_model">hms.patient</field>
         <field name="view_mode">list,form</field>
     </record>
+
+    <menuitem id="menu_hms_patients" name="Patients" parent="menu_hms_root" action="action_patient" sequence="10"/>
 </odoo>

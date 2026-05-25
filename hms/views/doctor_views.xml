@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <menuitem id="menu_hms_doctors" name="Doctors" parent="menu_hms_root" action="action_doctor" sequence="20"/>
     <record id="view_doctor_tree" model="ir.ui.view">
         <field name="name">hms.doctor.tree</field>
         <field name="model">hms.doctor</field>
@@ -45,4 +44,6 @@
         <field name="res_model">hms.doctor</field>
         <field name="view_mode">list,form</field>
     </record>
+
+    <menuitem id="menu_hms_doctors" name="Doctors" parent="menu_hms_root" action="action_doctor" sequence="20"/>
 </odoo>

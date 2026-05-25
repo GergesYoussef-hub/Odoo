@@ -4,11 +4,12 @@
     'category': 'Healthcare',
     'summary': 'Manage patients, doctors, and departments',
     'description': 'A complete hospital management system',
-    'depends': ['base'],
+    'depends': ['base', 'crm'],
     'data': [
         'views/patient_views.xml',
         'views/department_views.xml',
         'views/doctor_views.xml',
+        'views/customers_views.xml',
     ],
     'installable': True,
     'application': True,

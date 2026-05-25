@@ -1,6 +1,7 @@
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError
 from datetime import date
+import re
 
 
 class HmsPatient(models.Model):
@@ -9,6 +10,7 @@ class HmsPatient(models.Model):
 
     first_name = fields.Char(string='First Name', required=True)
     last_name = fields.Char(string='Last Name', required=True)
+    email = fields.Char(string='Email')
     birth_date = fields.Date(string='Birth Date')
     history = fields.Html(string='History')
     cr_ratio = fields.Float(string='CR Ratio')
@@ -37,6 +39,10 @@ class HmsPatient(models.Model):
     ], string='State', default='undetermined')
     log_history_ids = fields.One2many('hms.log.history', 'patient_id', string='Log History')
 
+    _sql_constraints = [
+        ('email_unique', 'unique(email)', 'Email must be unique')
+    ]
+
     @api.depends('birth_date')
     def _compute_age(self):
         for record in self:
@@ -46,6 +52,14 @@ class HmsPatient(models.Model):
                 record.age = today.year - birth.year - ((today.month, today.day) < (birth.month, birth.day))
             else:
                 record.age = 0
+
+    @api.constrains('email')
+    def _check_email(self):
+        for record in self:
+            if record.email:
+                email_pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+                if not re.match(email_pattern, record.email):
+                    raise ValidationError('Please enter a valid email address')
 
     @api.onchange('age')
     def _onchange_age(self):
