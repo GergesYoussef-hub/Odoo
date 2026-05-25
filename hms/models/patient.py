@@ -102,3 +102,6 @@ class HmsPatient(models.Model):
                 })
             return result
         return super(HmsPatient, self).write(vals)
+
+    def print_report(self):
+        return self.env.ref('hms.action_report_patient').report_action(self)
